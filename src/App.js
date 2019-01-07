@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserLocation from './UserLocation/UserLocation.js';
+import UserLocation from './UserLocation/UserLocation';
 import './App.css';
 
 class App extends Component {

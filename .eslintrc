@@ -1,0 +1,51 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
+  },
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
+  "rules": {
+    "arrow-body-style": "off",
+    "class-methods-use-this": "off",
+    "import/first": "error",
+    "prefer-destructuring": "off",
+    "max-len": [
+      "off",
+      100
+    ],
+    "array-callback-return": "off",
+    "no-use-before-define": "error",
+    "no-return-assign": "off",
+    "no-plusplus": "off",
+    "no-alert": "off",
+    "no-debugger": "warn",
+    "no-useless-constructor": "off",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "import/no-named-as-default": "off",
+    "react/jsx-indent-props": "off",
+    "react/no-unescaped-entities": "off",
+    "react/prefer-stateless-function": "off",
+    "react/no-danger": "error",
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ]
+  }
+}

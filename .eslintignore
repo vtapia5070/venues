@@ -1,0 +1,6 @@
+build
+scripts/build.js
+scripts/start.js
+public/scripts/*.js
+config
+src/serviceWorker.js

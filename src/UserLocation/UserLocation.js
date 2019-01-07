@@ -32,12 +32,14 @@ class UserLocation extends Component {
         
       }, (error) => {
         // TODO: handle error and notify user.
+        // eslint-disable-no-console
         console.error('An error has occured while retrieving location', error);
       });
     } else {
       // TODO: render modal that prevents user from accessing app
       // and notifies that the location is needed.
       // Perhaps render an input that will allow the user to ender their city and state
+      // eslint-disable-no-console
       console.log('geolocation is not enabled on this browser');
     }
   }
