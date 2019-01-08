@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
-import createPalette from '@material-ui/core/styles/createPalette';
+import SectionHeader from './SharedComponents/SectionHeader/SectionHeader';
 import UserLocation from './UserLocation/UserLocation';
 import VenueCategory from './VenueCategory/VenueCategory';
 import VenuesTable from './VenuesTable/VenuesTable';
@@ -13,19 +13,22 @@ import './App.css';
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: 'light',
     primary: {
+      light: '#ff5f52',
+      main: '#c62828',
+      dark: '#8e0000',
+      contrastText: '#fff',
+    },
+    secondary: {
       light: '#7293a6',
       main: '#7293a6',
       dark: '#193b4b',
       contrastText: '#fff',
     },
-    secondary: {
-      light: '#f40057',
-      main: '#ff5983',
-      dark: '#ba002f',
-      contrastText: '#000',
-    },
+    spacing: {
+      unitSM: '10px'
+    }
   },
 });
 
@@ -90,7 +93,10 @@ class App extends Component {
             </AppBar>
           </header>
 
+          <SectionHeader>Find your current location</SectionHeader>
           <UserLocation storeLocation={this.handleLocationChange} />
+          
+          <SectionHeader>Search places of interest</SectionHeader>
           <VenueCategory
             handleCategorySelection={this.handleCategorySelection}
             category="Morning"
@@ -102,10 +108,14 @@ class App extends Component {
             hasCheckbox
             />
             )}
-          { this.state.itinerary.length > 0 && (
+
+          <SectionHeader>Itinerary</SectionHeader>
+          { this.state.itinerary.length > 0 ? (
             <VenuesTable 
             venues={this.state.itinerary} 
             />
+            ) : (
+              <div>Build your itinerary by selecting venue options above!</div>
             )}
         </div>
       </MuiThemeProvider>

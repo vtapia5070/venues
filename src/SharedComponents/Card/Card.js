@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
+import { withStyles } from '@material-ui/core/styles';
+import CardContent from '@material-ui/core/CardContent';
 
-const ContentContainer = children => (
-  <div>
-    {children}
-  </div>
-);
+const styles = theme => ({
+  card: {
+    margin: `${ theme.spacing.unit * 3}px`,
+  }
+});
 
 const MaterialUICard = (props) => {
   const content = (<div>{props.children}</div>);
   return (
-    <Card>
-      {props.children}
+    <Card className={props.classes.card}>
+      <CardContent>
+        {props.children}
+      </CardContent>
     </Card>
   );
 };
 
-export default MaterialUICard;
+export default withStyles(styles)(MaterialUICard);

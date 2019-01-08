@@ -5,6 +5,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  tableCell: {
+    paddingRight: '10px',
+    paddingLeft: '10px',
+  },
+});
 
 class VenuesTable extends Component {
   constructor() {
@@ -27,17 +35,18 @@ class VenuesTable extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div className="VenuesTable">
         <Table>
           <TableHead>
             <TableRow>
               {this.props.hasCheckbox && (
-                <TableCell>{/* TODO: style placeholder for checkbox */}</TableCell>
+                <TableCell className={classes.tableCell}>{/* TODO: style placeholder for checkbox */}</TableCell>
               )}
-              <TableCell>Venue</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Distance</TableCell>
+              <TableCell className={classes.tableCell}>Venue</TableCell>
+              <TableCell className={classes.tableCell}>Address</TableCell>
+              <TableCell className={classes.tableCell}>Distance</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -45,15 +54,15 @@ class VenuesTable extends Component {
               return (
                 <TableRow key={`venue_${venue.id}`}>
                   {this.props.hasCheckbox && (
-                    <TableCell>
+                    <TableCell className={classes.tableCell}>
                       <Checkbox 
                         onClick={this.handleClick(venue)} 
                         checked={this.state.selectedVenues[venue.name] !== undefined}
                       />
                     </TableCell>
                   )}
-                  <TableCell>{venue.name}</TableCell>
-                  <TableCell>
+                  <TableCell className={classes.tableCell}>{venue.name}</TableCell>
+                  <TableCell className={classes.tableCell}>
                     <div>
                       {venue.location.formattedAddress[0]}
                     </div>
@@ -61,7 +70,7 @@ class VenuesTable extends Component {
                       {venue.location.formattedAddress[1]}
                     </div>
                   </TableCell>
-                  <TableCell>{venue.location.distance}</TableCell>
+                  <TableCell className={classes.tableCell}>{venue.location.distance}</TableCell>
                 </TableRow>
               );
             })}
@@ -72,4 +81,4 @@ class VenuesTable extends Component {
   }
 }
 
-export default VenuesTable;
+export default withStyles(styles)(VenuesTable);

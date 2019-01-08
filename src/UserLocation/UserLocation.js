@@ -1,6 +1,25 @@
 import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '../SharedComponents/Card/Card';
+import SectionHeader from '../SharedComponents/SectionHeader/SectionHeader';
+
+import './UserLocation.css';
+
+const styles = theme => ({
+  button: {
+    padding: `${theme.spacing.unit}`,
+  },
+  input: {
+    width: '30%',
+    margin: `0px ${theme.spacing.unit}px`
+  },
+  divider: {
+    margin: `${theme.spacing.unit * 3}px 0px`
+  }
+});
 
 class UserLocation extends Component {
   constructor() {
@@ -53,45 +72,53 @@ class UserLocation extends Component {
   }
 
   render() {
+    const { classes } = this.props;
 
     return (
-      <section>
-        <div className="findCurrentLocation">
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={this.getGeoLocation}
-          >
-          Find My Current Location!
-          </Button>
-        </div>
-        <div className="locationInput">
-          <TextField
-            name="city"
-            label="City"
-            value={this.state.city}
-            onChange={this.handleChange('city')}
-            margin="normal"
-          />
-          <TextField
-            name="state"
-            label="State"
-            value={this.state.state}
-            onChange={this.handleChange('state')}
-            margin="normal"
-          />
-          <Button 
-            onClick={() => this.props.storeLocation(this.state)}
-            variant="outlined" 
-            color="secondary"
-            disabled={!this.state.city && !this.state.state}
-          >
-            Continue
-          </Button>
-        </div>
+      <section className="userLocation">
+        <Card>
+          <div className="findCurrentLocation">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.getGeoLocation}
+              className={classes.button}
+            >
+              Find My Current Location!
+            </Button>
+          </div>
+          <Divider className={classes.divider} />
+          <div className="locationInput">
+            <TextField
+              name="city"
+              label="City"
+              value={this.state.city}
+              onChange={this.handleChange('city')}
+              margin="normal"
+              className={classes.input}
+            />
+            <TextField
+              name="state"
+              label="State"
+              value={this.state.state}
+              onChange={this.handleChange('state')}
+              margin="normal"
+              className={classes.input}
+            />
+            <Button 
+              onClick={() => this.props.storeLocation(this.state)}
+              variant="outlined" 
+              color="secondary"
+              disabled={!this.state.city && !this.state.state}
+              className={classes.button}
+            >
+              Continue
+            </Button>
+          </div>
+        </Card>
       </section>
     );
   }
 }
 
-export default UserLocation;
+export default withStyles(styles)(UserLocation);
