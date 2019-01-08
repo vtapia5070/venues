@@ -2,12 +2,32 @@ import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
+import createPalette from '@material-ui/core/styles/createPalette';
 import UserLocation from './UserLocation/UserLocation';
 import VenueCategory from './VenueCategory/VenueCategory';
 import VenuesTable from './VenuesTable/VenuesTable';
 import * as api from './api';
 
 import './App.css';
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      light: '#7293a6',
+      main: '#7293a6',
+      dark: '#193b4b',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#f40057',
+      main: '#ff5983',
+      dark: '#ba002f',
+      contrastText: '#000',
+    },
+  },
+});
 
 class App extends Component {
   constructor () {
@@ -49,9 +69,7 @@ class App extends Component {
   }
 
   addVenueToItinerary = (venue) => {
-    console.log('venue:', venue, this.state.itinerary);
     const updatedItineraryList = this.state.itinerary.concat([venue]);
-    console.log('after:', updatedItineraryList);
     this.setState({
       ...this.state,
       itinerary: updatedItineraryList
@@ -60,37 +78,39 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header>
-          <AppBar position="static" color="default">
-            <Toolbar>
-              <Typography variant="h6" color="inherit">
-                Itinerary Planner
-              </Typography>
-            </Toolbar>
-          </AppBar>
-        </header>
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <header>
+            <AppBar position="static" color="default">
+              <Toolbar>
+                <Typography variant="h6" color="inherit">
+                  Itinerary Planner
+                </Typography>
+              </Toolbar>
+            </AppBar>
+          </header>
 
-        <UserLocation storeLocation={this.handleLocationChange} />
-        <VenueCategory
-          handleCategorySelection={this.handleCategorySelection}
-          category="Morning"
-        />
-        { this.state.venueOptions.length > 0 && (
-          <VenuesTable 
+          <UserLocation storeLocation={this.handleLocationChange} />
+          <VenueCategory
+            handleCategorySelection={this.handleCategorySelection}
+            category="Morning"
+            />
+          { this.state.venueOptions.length > 0 && (
+            <VenuesTable 
             venues={this.state.venueOptions} 
             handleSelectedVenue={this.addVenueToItinerary}
             hasCheckbox
-          />
-        )}
-        { this.state.itinerary.length > 0 && (
-          <VenuesTable 
+            />
+            )}
+          { this.state.itinerary.length > 0 && (
+            <VenuesTable 
             venues={this.state.itinerary} 
-          />
-        )}
-      </div>
+            />
+            )}
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
 
-export default App;
+export default withStyles({ withTheme: true })(App);
