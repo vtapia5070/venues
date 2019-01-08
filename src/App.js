@@ -86,7 +86,6 @@ class App extends Component {
         { this.state.itinerary.length > 0 && (
           <VenuesTable 
             venues={this.state.itinerary} 
-            // handleSelectedVenue={this.addVenueToItinerary}
           />
         )}
       </div>
