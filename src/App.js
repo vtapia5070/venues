@@ -20,7 +20,8 @@ class App extends Component {
         city: '',
         state: '',
       },
-      venueOptions: []
+      venueOptions: [],
+      itinerary: []
     }
   }
 
@@ -47,20 +48,14 @@ class App extends Component {
     }
   }
 
-  renderCategories () {
-    const categories = this.state.venueCategories.map((category) => {
-      return (
-        <div>
-          <VenueCategory
-            handleCategorySelection={this.handleCategorySelection}
-            category={category.name}
-          />
-          <VenuesTable venueOptions={category.venueOptions} />
-        </div>
-      )
+  addVenueToItinerary = (venue) => {
+    console.log('venue:', venue, this.state.itinerary);
+    const updatedItineraryList = this.state.itinerary.concat([venue]);
+    console.log('after:', updatedItineraryList);
+    this.setState({
+      ...this.state,
+      itinerary: updatedItineraryList
     });
-
-    return categories;
   }
 
   render() {
@@ -82,7 +77,17 @@ class App extends Component {
           category="Morning"
         />
         { this.state.venueOptions.length > 0 && (
-          <VenuesTable venueOptions={this.state.venueOptions} />
+          <VenuesTable 
+            venues={this.state.venueOptions} 
+            handleSelectedVenue={this.addVenueToItinerary}
+            hasCheckbox
+          />
+        )}
+        { this.state.itinerary.length > 0 && (
+          <VenuesTable 
+            venues={this.state.itinerary} 
+            // handleSelectedVenue={this.addVenueToItinerary}
+          />
         )}
       </div>
     );

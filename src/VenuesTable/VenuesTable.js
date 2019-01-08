@@ -4,32 +4,54 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
+import Checkbox from '@material-ui/core/Checkbox';
 
 class VenuesTable extends Component {
   constructor() {
     super();
 
     this.state = {
-      ItineraryItems: [],
+      selectedVenues: {},
     };
   }
 
+  handleClick = (venueObj) => () => {
+    this.setState({
+      selectedVenues: {
+        ...this.state.selectedVenues,
+        [venueObj.name]: venueObj,
+      }
+    });
+
+    this.props.handleSelectedVenue(venueObj);
+  }
+
   render() {
-    console.log('this', this.props.venueOptions);
     return (
       <div className="VenuesTable">
         <Table>
           <TableHead>
             <TableRow>
+              {this.props.hasCheckbox && (
+                <TableCell>{/* TODO: style placeholder for checkbox */}</TableCell>
+              )}
               <TableCell>Venue</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Distance</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.venueOptions && this.props.venueOptions.map((venue) => {
+            {this.props.venues && this.props.venues.map((venue) => {
               return (
                 <TableRow key={`venue_${venue.id}`}>
+                  {this.props.hasCheckbox && (
+                    <TableCell>
+                      <Checkbox 
+                        onClick={this.handleClick(venue)} 
+                        checked={this.state.selectedVenues[venue.name] !== undefined}
+                      />
+                    </TableCell>
+                  )}
                   <TableCell>{venue.name}</TableCell>
                   <TableCell>
                     <div>
