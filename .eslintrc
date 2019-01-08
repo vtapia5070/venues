@@ -38,6 +38,7 @@
         "devDependencies": true
       }
     ],
+    "import/prefer-default-export": "off",
     "import/no-named-as-default": "off",
     "react/jsx-indent-props": "off",
     "react/no-unescaped-entities": "off",

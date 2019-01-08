@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import CardContent from '@material-ui/core/CardContent';
+import Divider from '@material-ui/core/Divider';
 import Card from '../SharedComponents/Card/Card';
 import Pill from '../SharedComponents/Pill/Pill';
 
-class VenueCategories extends Component {
+class VenueCategory extends Component {
   constructor () {
     super();
   }
@@ -16,15 +17,15 @@ class VenueCategories extends Component {
             <h2>Morning</h2>
             <Pill
               label="Coffee/Tea"
-              handleClick={this.props.handleCategorySelection('Coffee')}
+              handleClick={this.props.handleCategorySelection('morning','Coffee')}
             />
             <Pill
               label="Boozy Brunch"
-              handleClick={this.props.handleCategorySelection('Brunch')}
+              handleClick={this.props.handleCategorySelection('morning', 'Brunch')}
             />
             <Pill
               label="Cafe"
-              handleClick={this.props.handleCategorySelection('Cafe')}
+              handleClick={this.props.handleCategorySelection('morning', 'Cafe')}
             />
           </CardContent>
         </Card>
@@ -33,4 +34,4 @@ class VenueCategories extends Component {
   }
 }
 
-export default VenueCategories;
+export default VenueCategory;

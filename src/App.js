@@ -3,8 +3,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import UserLocation from './UserLocation/UserLocation';
-import VenueCategories from './VenueCategories/VenueCategories';
-import ItineraryTable from './Itinerary/ItineraryTable';
+import VenueCategory from './VenueCategory/VenueCategory';
+import VenuesTable from './VenuesTable/VenuesTable';
+import * as api from './api';
+
 import './App.css';
 
 class App extends Component {
@@ -17,7 +19,8 @@ class App extends Component {
         latitude: '',
         city: '',
         state: '',
-      }
+      },
+      venueOptions: []
     }
   }
 
@@ -29,8 +32,35 @@ class App extends Component {
     
   }
 
-  handleCategorySelection = (selection) => (event) => {
-    console.log('selection:', selection);
+  handleCategorySelection = (category, selection) => (event) => {
+    if (this.state.userLocation.latitude || this.state.userLocation.city) {
+      api.searchVenuesByQuery(selection, this.state.userLocation)
+        .then((data) => {
+          this.setState({
+            ...this.state,
+            venueOptions: data.response.venues
+          });
+        })
+        .catch((err) => {
+          console.log('error:', err);
+        });
+    }
+  }
+
+  renderCategories () {
+    const categories = this.state.venueCategories.map((category) => {
+      return (
+        <div>
+          <VenueCategory
+            handleCategorySelection={this.handleCategorySelection}
+            category={category.name}
+          />
+          <VenuesTable venueOptions={category.venueOptions} />
+        </div>
+      )
+    });
+
+    return categories;
   }
 
   render() {
@@ -47,13 +77,13 @@ class App extends Component {
         </header>
 
         <UserLocation storeLocation={this.handleLocationChange} />
-        {/* {
-          this.state.userLocation.longitude || this.state.userLocation.city && (
-            
-          )
-        } */}
-        <VenueCategories handleCategorySelection={this.handleCategorySelection} />
-        <ItineraryTable />
+        <VenueCategory
+          handleCategorySelection={this.handleCategorySelection}
+          category="Morning"
+        />
+        { this.state.venueOptions.length > 0 && (
+          <VenuesTable venueOptions={this.state.venueOptions} />
+        )}
       </div>
     );
   }
