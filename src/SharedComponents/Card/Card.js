@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 
-const Card = (props) => {
+const ContentContainer = children => (
+  <div>
+    {children}
+  </div>
+);
+
+const MaterialUICard = (props) => {
+  const content = (<div>{props.children}</div>);
   return (
     <Card>
-      <CardContent>
-        {...props.children}
-      </CardContent>
+      {props.children}
     </Card>
   );
 };
 
-export default Card;
+export default MaterialUICard;

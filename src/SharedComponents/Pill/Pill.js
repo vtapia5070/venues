@@ -4,12 +4,11 @@ import Chip from '@material-ui/core/Chip';
 const Pill = (props) => {
   return (
     <Chip
+      label={props.label}
       onClick={props.handleClick}
       clickable
-    >
-      {...props.children}
-    </Chip>
+    />
   );
 };
 
-export default Chip;
+export default Pill;
