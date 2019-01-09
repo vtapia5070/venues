@@ -7,7 +7,7 @@ export const categories = {
       'Coffee/Tea',
       'Boozy Brunch',
       'Cafe',
-      'Donutes',
+      'Donuts',
       'Bakery'
     ]
   }

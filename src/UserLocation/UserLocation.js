@@ -5,6 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Card from '../SharedComponents/Card/Card';
+import SectionHeader from '../SharedComponents/SectionHeader/SectionHeader';
 
 import './UserLocation.css';
 
@@ -124,6 +125,7 @@ class UserLocation extends Component {
 
     return (
       <section className="userLocation">
+        <SectionHeader>Find your current location</SectionHeader>
         <Card>
           <div className="findCurrentLocation">
             {this.renderFetchLocationButton()}

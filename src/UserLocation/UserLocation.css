@@ -1,10 +1,7 @@
 .userLocation {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 68px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+  flex-direction: column;
 }
 
 .locationInput {

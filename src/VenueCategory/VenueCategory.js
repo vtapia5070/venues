@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import Card from '../SharedComponents/Card/Card';
 import Pill from '../SharedComponents/Pill/Pill';
+import SectionHeader from '../SharedComponents/SectionHeader/SectionHeader';
+import VenuesTable from '../VenuesTable/VenuesTable';
 
 const VenueCategory = (props) => {
-  const { category, handleCategorySelection } = props;
+
+  const { 
+    category, 
+    handleCategorySelection,
+    venueOptions,
+    fetchingCategoryOptions,
+    handleSelectedVenue
+  } = props;
+
   return (
-    <div>
+    <section>
+      <SectionHeader>Search places of interest</SectionHeader>
       <Card>
-        <h2>{ category.name }</h2>
+        <h4>{ category.name }</h4>
         {category.labels.map((label, index) => {
           return (
             <Pill
@@ -19,7 +30,21 @@ const VenueCategory = (props) => {
           )
         })}
       </Card>
-    </div>
+
+      {
+        fetchingCategoryOptions && (
+          <div>Fetching Suggestions...</div>
+        )
+      }
+      {
+        venueOptions.length > 0 && (
+          <VenuesTable
+            venues={venueOptions}
+            handleSelectedVenue={handleSelectedVenue}
+            hasCheckbox
+          />
+        )}
+    </section>
   );
 }
 

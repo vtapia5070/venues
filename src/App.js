@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
-import SectionHeader from './SharedComponents/SectionHeader/SectionHeader';
 import UserLocation from './UserLocation/UserLocation';
 import VenueCategory from './VenueCategory/VenueCategory';
-import VenuesTable from './VenuesTable/VenuesTable';
 import { categories } from './categoryConfig';
+import Itinerary from './Itinerary/Itinerary';
 import * as api from './api';
 
 import './App.css';
@@ -98,43 +97,22 @@ class App extends Component {
               </Toolbar>
             </AppBar>
           </header>
-
-          <SectionHeader>Find your current location</SectionHeader>
-          
           <UserLocation 
             storeLocation={this.handleLocationChange} 
             hasUserLocation={this.state.hasUserLocation} 
           />
-          
-          <SectionHeader>Search places of interest</SectionHeader>
           <VenueCategory
             handleCategorySelection={this.handleCategorySelection}
             category={categories.morning}
             isDisabled={!this.state.hasUserLocation}
+            venueOptions={this.state.venueOptions}
+            fetchingCategoryOptions={this.state.fetchingCategoryOptions}
+            handleSelectedVenue={this.addVenueToItinerary}
           />
-          {
-            this.state.fetchingCategoryOptions && (
-              <div>Fetching Suggestions...</div>
-            )
-          }
-          { 
-            this.state.venueOptions.length > 0 && (
-              <VenuesTable 
-                venues={this.state.venueOptions} 
-                handleSelectedVenue={this.addVenueToItinerary}
-                hasCheckbox
-              />
-            )}
 
-          <SectionHeader>Itinerary</SectionHeader>
-          { 
-            this.state.itinerary.length > 0 ? (
-              <VenuesTable 
-                venues={this.state.itinerary} 
-              />
-            ) : (
-              <div>Build your itinerary by selecting venue options above!</div>
-            )}
+          <Itinerary 
+            itinerary={this.state.itinerary}
+          />
         </div>
       </MuiThemeProvider>
     );
