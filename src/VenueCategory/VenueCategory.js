@@ -3,26 +3,21 @@ import Card from '../SharedComponents/Card/Card';
 import Pill from '../SharedComponents/Pill/Pill';
 
 const VenueCategory = (props) => {
+  const { category, handleCategorySelection } = props;
   return (
     <div>
       <Card>
-        <h2>Morning</h2>
-        <Pill
-          label="Coffee/Tea"
-          handleClick={props.handleCategorySelection('morning','Coffee')}
-        />
-        <Pill
-          label="Boozy Brunch"
-          handleClick={props.handleCategorySelection('morning', 'Brunch')}
-        />
-        <Pill
-          label="Cafe"
-          handleClick={props.handleCategorySelection('morning', 'Cafe')}
-        />
-        <Pill
-          label="Bakery"
-          handleClick={props.handleCategorySelection('morning', 'Bakery')}
-        />
+        <h2>{ category.name }</h2>
+        {category.labels.map((label, index) => {
+          return (
+            <Pill
+              key={`${category.name}_${label}_${index}`}
+              label={label}
+              handleClick={handleCategorySelection(category.name,label)}
+              disabled={props.isDisabled}
+            />
+          )
+        })}
       </Card>
     </div>
   );

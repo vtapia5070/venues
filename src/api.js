@@ -18,7 +18,12 @@ export const searchVenuesByQuery = (query, locationObj) => {
 
   return fetch(url)
     .then((res) => res.json())
-    .then(data => Promise.resolve(data))
+    .then(res => {
+      if (res.meta.code >= 400) {
+        throw Error(res.statusText);
+      }
+      return Promise.resolve(res);
+    })
     .catch((err) => {
       console.log('Error:', err);
     });

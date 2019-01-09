@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
 import SectionHeader from './SharedComponents/SectionHeader/SectionHeader';
 import UserLocation from './UserLocation/UserLocation';
 import VenueCategory from './VenueCategory/VenueCategory';
 import VenuesTable from './VenuesTable/VenuesTable';
+import { categories } from './categoryConfig';
 import * as api from './api';
 
 import './App.css';
@@ -21,13 +21,13 @@ const theme = createMuiTheme({
       contrastText: '#fff',
     },
     secondary: {
-      light: '#7293a6',
-      main: '#7293a6',
-      dark: '#193b4b',
+      light: '#526572',
+      main: '#283b47',
+      dark: '#001520',
       contrastText: '#fff',
     },
     spacing: {
-      unitSM: '10px'
+      unit: '10px'
     }
   },
 });
@@ -44,7 +44,9 @@ class App extends Component {
         state: '',
       },
       venueOptions: [],
-      itinerary: []
+      itinerary: [],
+      fetchingCategorySuggestions: false,
+      hasUserLocation: false
     }
   }
 
@@ -52,21 +54,25 @@ class App extends Component {
     this.setState({
       ...this.state,
       userLocation: locationValues,
+      hasUserLocation: true
     });
     
   }
 
   handleCategorySelection = (category, selection) => (event) => {
-    if (this.state.userLocation.latitude || this.state.userLocation.city) {
+    
+    if (this.state.hasUserLocation) {
+      this.setState({
+        ...this.state, 
+        fetchingCategoryOptions: true
+      });
       api.searchVenuesByQuery(selection, this.state.userLocation)
         .then((data) => {
           this.setState({
             ...this.state,
-            venueOptions: data.response.venues
+            venueOptions: data.response.venues,
+            fetchingCategoryOptions: false
           });
-        })
-        .catch((err) => {
-          console.log('error:', err);
         });
     }
   }
@@ -84,36 +90,48 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <div className="App">
           <header>
-            <AppBar position="static" color="default">
+            <AppBar position="fixed" color="secondary">
               <Toolbar>
-                <Typography variant="h6" color="inherit">
+                <h2>
                   Itinerary Planner
-                </Typography>
+                </h2>
               </Toolbar>
             </AppBar>
           </header>
 
           <SectionHeader>Find your current location</SectionHeader>
-          <UserLocation storeLocation={this.handleLocationChange} />
+          
+          <UserLocation 
+            storeLocation={this.handleLocationChange} 
+            hasUserLocation={this.state.hasUserLocation} 
+          />
           
           <SectionHeader>Search places of interest</SectionHeader>
           <VenueCategory
             handleCategorySelection={this.handleCategorySelection}
-            category="Morning"
-            />
-          { this.state.venueOptions.length > 0 && (
-            <VenuesTable 
-            venues={this.state.venueOptions} 
-            handleSelectedVenue={this.addVenueToItinerary}
-            hasCheckbox
-            />
+            category={categories.morning}
+            isDisabled={!this.state.hasUserLocation}
+          />
+          {
+            this.state.fetchingCategoryOptions && (
+              <div>Fetching Suggestions...</div>
+            )
+          }
+          { 
+            this.state.venueOptions.length > 0 && (
+              <VenuesTable 
+                venues={this.state.venueOptions} 
+                handleSelectedVenue={this.addVenueToItinerary}
+                hasCheckbox
+              />
             )}
 
           <SectionHeader>Itinerary</SectionHeader>
-          { this.state.itinerary.length > 0 ? (
-            <VenuesTable 
-            venues={this.state.itinerary} 
-            />
+          { 
+            this.state.itinerary.length > 0 ? (
+              <VenuesTable 
+                venues={this.state.itinerary} 
+              />
             ) : (
               <div>Build your itinerary by selecting venue options above!</div>
             )}

@@ -23,11 +23,11 @@ class VenuesTable extends Component {
     };
   }
 
-  handleClick = (venueObj) => () => {
+  handleClick = (venueObj, key) => () => {
     this.setState({
       selectedVenues: {
         ...this.state.selectedVenues,
-        [venueObj.name]: venueObj,
+        [key]: venueObj,
       }
     });
 
@@ -50,14 +50,15 @@ class VenuesTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.props.venues && this.props.venues.map((venue) => {
+            {this.props.venues && this.props.venues.map((venue, index) => {
+              const uniqueKey = `venue_${venue.id}_${index}`;
               return (
-                <TableRow key={`venue_${venue.id}`}>
+                <TableRow key={uniqueKey}>
                   {this.props.hasCheckbox && (
                     <TableCell className={classes.tableCell}>
                       <Checkbox 
-                        onClick={this.handleClick(venue)} 
-                        checked={this.state.selectedVenues[venue.name] !== undefined}
+                        onClick={this.handleClick(venue, uniqueKey)} 
+                        checked={this.state.selectedVenues[uniqueKey] !== undefined}
                       />
                     </TableCell>
                   )}

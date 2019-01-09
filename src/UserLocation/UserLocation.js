@@ -3,8 +3,8 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Card from '../SharedComponents/Card/Card';
-import SectionHeader from '../SharedComponents/SectionHeader/SectionHeader';
 
 import './UserLocation.css';
 
@@ -26,14 +26,23 @@ class UserLocation extends Component {
     super();
 
     this.state = {
-      longitude: '',
-      latitude: '',
-      city: '',
-      state: '',
+      userLocation: {
+        longitude: '',
+        latitude: '',
+        city: '',
+        state: '',
+      },
+      fetchingLocation: false,
+      isGeolocationSupported: true
     }
   }
 
   getGeoLocation = () => {
+    this.setState({
+      ...this.state,
+      fetchingLocation: true
+    });
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
 
@@ -45,30 +54,69 @@ class UserLocation extends Component {
         this.setState({
           ...this.state,
           ...locationObj,
+          fetchingLocation: false
         });
         
         this.props.storeLocation(this.state);
         
       }, (error) => {
-        // TODO: handle error and notify user.
-        // eslint-disable-no-console
-        console.error('An error has occured while retrieving location', error);
+        this.setState({
+          ...this.state,
+          isGeolocationSupported: false,
+          fetchingLocation: false
+        });
       });
     } else {
-      // TODO: render modal that prevents user from accessing app
-      // and notifies that the location is needed.
-      // Perhaps render an input that will allow the user to ender their city and state
-      // eslint-disable-no-console
-      console.log('geolocation is not enabled on this browser');
+      this.setState({
+        ...this.state,
+        isGeolocationSupported: false,
+        fetchingLocation: false
+      });
     }
   }
 
-  handleChange = (name) => (event) => {
+  handleInputChange = (name) => (event) => {
     this.setState({
       ...this.state,
       [name]: event.target.value
     });
-    console.log('handle change', name, event.target.value);
+  }
+
+  renderFetchLocationButton () {
+    let buttonText = this.props.hasUserLocation ? 
+      'Location Saved!' :
+      'Find My Current Location!'
+  
+    if (this.state.fetchingLocation) {
+      buttonText = 'Retrieving current location...';
+    }
+
+    const button = (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={this.getGeoLocation}
+        className={this.props.classes.button}
+        disabled={!this.state.isGeolocationSupported}
+      >
+        {buttonText}
+      </Button>
+    );
+
+    if (!this.state.isGeolocationSupported) {
+      return (
+        <Tooltip
+          title="Your browser does not allow us to retrieve your location. Insert your city and state below."
+          placement="bottom-start"
+          disableTouchListener={true}
+        >
+          {button}
+        </Tooltip>
+      );
+    }
+
+    return button;
+
   }
 
   render() {
@@ -78,14 +126,7 @@ class UserLocation extends Component {
       <section className="userLocation">
         <Card>
           <div className="findCurrentLocation">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.getGeoLocation}
-              className={classes.button}
-            >
-              Find My Current Location!
-            </Button>
+            {this.renderFetchLocationButton()}
           </div>
           <Divider className={classes.divider} />
           <div className="locationInput">
@@ -93,7 +134,7 @@ class UserLocation extends Component {
               name="city"
               label="City"
               value={this.state.city}
-              onChange={this.handleChange('city')}
+              onChange={this.handleInputChange('city')}
               margin="normal"
               className={classes.input}
             />
@@ -101,7 +142,7 @@ class UserLocation extends Component {
               name="state"
               label="State"
               value={this.state.state}
-              onChange={this.handleChange('state')}
+              onChange={this.handleInputChange('state')}
               margin="normal"
               className={classes.input}
             />
