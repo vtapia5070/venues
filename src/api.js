@@ -19,7 +19,6 @@ export const searchVenuesByQuery = (query, locationObj) => {
   return fetch(url)
     .then((res) => res.json())
     .then(res => {
-      console.log('code', res.meta.code);
       if (res.meta.code >= 400) {
         return new Error(res.meta.errorDetail);
       }
