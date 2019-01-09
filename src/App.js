@@ -72,6 +72,12 @@ class App extends Component {
             venueOptions: data.response.venues,
             fetchingCategoryOptions: false
           });
+        })
+        .catch(err => {
+          this.setState({
+            ...this.state,
+            fetchingCategoryOptions: false
+          });
         });
     }
   }
