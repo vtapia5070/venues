@@ -3,6 +3,7 @@ import Card from '../SharedComponents/Card/Card';
 import Pill from '../SharedComponents/Pill/Pill';
 import SectionHeader from '../SharedComponents/SectionHeader/SectionHeader';
 import VenuesTable from '../VenuesTable/VenuesTable';
+import SectionContainer from '../SharedComponents/SectionContainer/SectionContainer';
 
 const VenueCategory = (props) => {
 
@@ -15,7 +16,7 @@ const VenueCategory = (props) => {
   } = props;
 
   return (
-    <section>
+    <SectionContainer>
       <SectionHeader>Search places of interest</SectionHeader>
       <Card>
         <h4>{ category.name }</h4>
@@ -44,7 +45,7 @@ const VenueCategory = (props) => {
             hasCheckbox
           />
         )}
-    </section>
+    </SectionContainer>
   );
 }
 

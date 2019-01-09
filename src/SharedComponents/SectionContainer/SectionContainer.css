@@ -1,0 +1,15 @@
+.sectionContainer {
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .sectionContainer {
+    max-width: 730px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sectionContainer {
+    max-width: 800px;
+  }
+}

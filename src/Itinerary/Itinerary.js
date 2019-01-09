@@ -2,10 +2,11 @@ import React from 'react';
 import Card from '../SharedComponents/Card/Card';
 import SectionHeader from '../SharedComponents/SectionHeader/SectionHeader';
 import VenuesTable from '../VenuesTable/VenuesTable';
+import SectionContainer from '../SharedComponents/SectionContainer/SectionContainer';
 
 const Itinerary = (props) => {
   return (
-    <section>
+    <SectionContainer>
       <SectionHeader>Itinerary</SectionHeader>
       <Card>
         {
@@ -17,7 +18,7 @@ const Itinerary = (props) => {
             <div>Build your itinerary by selecting venue options above!</div>
           )}
       </Card>
-    </section>
+    </SectionContainer>
   );
 };
 

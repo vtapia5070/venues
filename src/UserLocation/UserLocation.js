@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Card from '../SharedComponents/Card/Card';
 import SectionHeader from '../SharedComponents/SectionHeader/SectionHeader';
+import SectionContainer from '../SharedComponents/SectionContainer/SectionContainer';
 
 import './UserLocation.css';
 
@@ -124,7 +125,7 @@ class UserLocation extends Component {
     const { classes } = this.props;
 
     return (
-      <section className="userLocation">
+      <SectionContainer classes="userLocation">
         <SectionHeader>Find your current location</SectionHeader>
         <Card>
           <div className="findCurrentLocation">
@@ -159,7 +160,7 @@ class UserLocation extends Component {
             </Button>
           </div>
         </Card>
-      </section>
+      </SectionContainer>
     );
   }
 }
